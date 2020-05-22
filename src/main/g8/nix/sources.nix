@@ -28,7 +28,7 @@ let
           The niv type "builtin-tarball" will soon be deprecated. You should
           instead use `builtin = true`.
 
-          $ niv modify <package> -a type=tarball -a builtin=true
+          \$ niv modify <package> -a type=tarball -a builtin=true
       ''
       builtins_fetchTarball { inherit (spec) url sha256; };
 
@@ -39,7 +39,7 @@ let
           The niv type "builtin-url" will soon be deprecated. You should
           instead use `builtin = true`.
 
-          $ niv modify <package> -a type=file -a builtin=true
+          \$ niv modify <package> -a type=file -a builtin=true
       ''
       (builtins_fetchurl { inherit (spec) url sha256; });
 
@@ -70,21 +70,21 @@ let
   fetch = pkgs: name: spec:
 
     if ! builtins.hasAttr "type" spec then
-      abort "ERROR: niv spec ${name} does not have a 'type' attribute"
+      abort "ERROR: niv spec \${name} does not have a 'type' attribute"
     else if spec.type == "file" then fetch_file pkgs spec
     else if spec.type == "tarball" then fetch_tarball pkgs spec
     else if spec.type == "git" then fetch_git spec
     else if spec.type == "builtin-tarball" then fetch_builtin-tarball spec
     else if spec.type == "builtin-url" then fetch_builtin-url spec
     else
-      abort "ERROR: niv spec ${name} has unknown type ${builtins.toJSON spec.type}";
+      abort "ERROR: niv spec \${name} has unknown type \${builtins.toJSON spec.type}";
 
   # Ports of functions for older nix versions
 
   # a Nix version of mapAttrs if the built-in doesn't exist
   mapAttrs = builtins.mapAttrs or (
     f: set: with builtins;
-    listToAttrs (map (attr: { name = attr; value = f attr set.${attr}; }) (attrNames set))
+    listToAttrs (map (attr: { name = attr; value = f attr set.\${attr}; }) (attrNames set))
   );
 
   # fetchTarball version that is compatible between all the versions of Nix
